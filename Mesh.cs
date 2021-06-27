@@ -9,8 +9,16 @@ namespace LD4
         public List<Vertex> Vertices;
         public List<int> Indices;
         public List<Texture> Textures;
+        public Texture1D Texture1D;
         public VAO Vao;
 
+        public Mesh(List<Vertex> vertices, List<int> indices): this(vertices, indices, new List<Texture>()) { }
+
+        public Mesh(List<Vertex> vertices, List<int> indices, Texture1D texture1D) : this(vertices, indices, new List<Texture>())
+        {
+            Texture1D = texture1D;
+        }
+        
         public Mesh(List<Vertex> vertices, List<int> indices, List<Texture> textures)
         {
             (Vertices, Indices, Textures) = (vertices, indices, textures);
@@ -51,6 +59,17 @@ namespace LD4
             shader.SetVector3("camPos", camera.Position);
             shader.SetMatrix4("camMatrix", camera.CameraMatrix);
             GL.DrawElements(BeginMode.Triangles, Indices.Count, DrawElementsType.UnsignedInt, 0);
+        }
+
+        public void DrawWithLines(ref Shader shader, ref Camera camera)
+        {
+            shader.Use();
+            Vao.Bind();
+            Texture1D.Bind();
+            
+            shader.SetVector3("camPos", camera.Position);
+            shader.SetMatrix4("camMatrix", camera.CameraMatrix);
+            GL.DrawElements(BeginMode.Lines, Indices.Count, DrawElementsType.UnsignedInt, 0);
         }
     }
 }

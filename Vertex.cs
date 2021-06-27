@@ -24,5 +24,13 @@ namespace LD4
             Color = Vector3.Zero;
             TexUv = Vector2.Zero;
         }
+
+        public Vertex(Vector3 position, Vector2 texCoord)
+        {
+            Position = position;
+            Normal = Vector3.One;
+            Color = Vector3.One;
+            TexUv = texCoord;
+        }
     }
 }

@@ -67,6 +67,73 @@ namespace LD4
             2, 3, 4,
             3, 0, 4
         };
+        
+        private Vertex[] _linePyramidVertices =
+        {
+            new(
+                new Vector3(-0.5f, 0.0f, 0.5f),
+                new Vector3(0.25f, 0.44f, 0.33f),
+                Vector3.One,
+                new Vector2(1.5f, 0.0f)
+                ), // 0
+            new(
+                new Vector3(-0.5f, 0.0f, -0.5f),
+                new Vector3(0.25f, 0.44f, 0.33f),
+                Vector3.One,
+                new Vector2(1.0f, 0.0f)
+            ), // 1
+            new(
+                new Vector3(0.5f, 0.0f, -0.5f), 
+                new Vector3(0.25f, 0.44f, 0.33f),
+                Vector3.One,
+                new Vector2(1.0f, 0.0f)
+                ), // 2
+            new(
+                new Vector3(0.5f, 0.0f, 0.5f), 
+                new Vector3(0.25f, 0.44f, 0.33f),
+                Vector3.One,
+                new Vector2(1.0f, 0.0f)
+                ), // 3
+            new(
+                new Vector3(0.0f, 0.8f, 0.0f), 
+                new Vector3(0.25f, 0.44f, 0.33f),
+                Vector3.One,
+                new Vector2(1.0f, 0.0f)
+                ), // 4 
+            new(
+                new Vector3(-0.25f, 0.0f, 0.5f), 
+                new Vector3(0.25f, 0.44f, 0.33f),
+                Vector3.One,
+                new Vector2(1.0f, 0.0f)
+                ), // 5
+            new(
+                new Vector3(0f, 0.0f, 0.5f), 
+                new Vector3(0.25f, 0.44f, 0.33f),
+                Vector3.One,
+                new Vector2(0.0f, 0.0f)
+                ), // 6
+            new(
+                new Vector3(0.25f, 0.0f, 0.5f), 
+                new Vector3(0.25f, 0.44f, 0.33f),
+                Vector3.One,
+                new Vector2(0.0f, 0.0f)
+                ), // 7
+        };
+
+        private int[] _linePyramidIndices =
+        {
+            0, 1,
+            1, 2,
+            2, 3,
+            3, 0,
+            0, 4,
+            1, 4,
+            2, 4,
+            3, 4,
+            5, 4,
+            6, 4,
+            7, 4,
+        };
 
         private Vertex[] _floorVertices =
         {
@@ -138,10 +205,14 @@ namespace LD4
         private Mesh _floor;
 
         private Mesh _light;
+        
+        private Mesh _lineObject;
 
         private double _time;
 
         private Camera _camera;
+
+        private Matrix4 _objectModel;
 
         public Window(GameWindowSettings gameWindowSettings, NativeWindowSettings nativeWindowSettings) : base(
             gameWindowSettings, nativeWindowSettings)
@@ -167,8 +238,9 @@ namespace LD4
             _lightShader = new Shader(Path.Combine(_vertexLightShaderPath), Path.Combine(_fragmentLightShaderPath));
 
             _floor = new Mesh(_floorVertices.ToList(), _floorIndices.ToList(), floorTextures.ToList());
-            _light = new Mesh(_lightVertices.ToList(), _lightIndices.ToList(), new List<Texture>());
+            _light = new Mesh(_lightVertices.ToList(), _lightIndices.ToList());
             _pyramid = new Mesh(_pyramidVertices.ToList(), _pyramidIndices.ToList(), pyramidTextures.ToList());
+            _lineObject = new Mesh(_linePyramidVertices.ToList(), _linePyramidIndices.ToList(), new Texture1D());
 
             var lightColor = Vector4.One;
             var lightPos = new Vector3(0.5f, 1.5f, 0f);
@@ -179,10 +251,10 @@ namespace LD4
             _lightShader.SetVector4("lightColor", lightColor);
 
             var objectPos = Vector3.Zero;
-            var objectModel = Matrix4.CreateTranslation(objectPos);
+            _objectModel = Matrix4.CreateTranslation(objectPos);
 
             _shader.Use();
-            _shader.SetMatrix4("model", objectModel);
+            _shader.SetMatrix4("model", _objectModel);
             _shader.SetVector4("lightColor", lightColor);
             _shader.SetVector3("lightPos", lightPos);
 
@@ -196,7 +268,7 @@ namespace LD4
         protected override void OnRenderFrame(FrameEventArgs args)
         {
             _time += 16.0 * args.Time;
-            GL.ClearColor(Color.Black);
+            GL.ClearColor(Color.Beige);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             _camera.UpdateMatrix(40, 0.1f, 100f);
@@ -205,6 +277,11 @@ namespace LD4
             _pyramid.Draw(ref _shader, ref _camera);
             _light.Draw(ref _lightShader, ref _camera);
 
+            var lineModel = Matrix4.CreateTranslation(0.0f, 0.5f, 0.0f);
+            _shader.SetMatrix4("model", lineModel);
+            _lineObject.DrawWithLines(ref _shader, ref _camera);
+
+            _shader.SetMatrix4("model", _objectModel);
             GL.Flush();
             SwapBuffers();
             base.OnRenderFrame(args);
