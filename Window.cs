@@ -196,7 +196,7 @@ namespace LD4
         protected override void OnRenderFrame(FrameEventArgs args)
         {
             _time += 16.0 * args.Time;
-            GL.ClearColor(Color.DarkSlateGray);
+            GL.ClearColor(Color.Black);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
             _camera.UpdateMatrix(40, 0.1f, 100f);
