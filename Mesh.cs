@@ -21,7 +21,8 @@ namespace LD4
             var size = System.Runtime.InteropServices.Marshal.SizeOf(typeof(Vertex));
             Vao.LinkAttrib(ref vbo, 0, 3, VertexAttribPointerType.Float,size, IntPtr.Zero);
             Vao.LinkAttrib(ref vbo, 1, 3, VertexAttribPointerType.Float,size, new IntPtr(3 * sizeof(float)));
-            Vao.LinkAttrib(ref vbo, 2, 2, VertexAttribPointerType.Float,size, new IntPtr(6 * sizeof(float)));
+            Vao.LinkAttrib(ref vbo, 2, 3, VertexAttribPointerType.Float,size, new IntPtr(6 * sizeof(float)));
+            Vao.LinkAttrib(ref vbo, 3, 2, VertexAttribPointerType.Float,size, new IntPtr(9 * sizeof(float)));
             Vao.Unbind();
             vbo.Unbind();
             ebo.Unbind();
@@ -32,12 +33,22 @@ namespace LD4
             shader.Use();
             Vao.Bind();
 
-            for (int i = 0; i < Textures.Count; i++)
+            var numDiffuse = 0;
+            var numSpecular = 0;
+            
+            for (var i = 0; i < Textures.Count; i++)
             {
-                Textures[i].TexUnit(ref shader, "tex" + Convert.ToString(i), i);
+                var type = Textures[i].Type;
+                var num = type switch
+                {
+                    "diffuse" => Convert.ToString(numDiffuse++),
+                    "specular" => Convert.ToString(numSpecular++),
+                    _ => ""
+                };
+                shader.SetInt(type + Convert.ToString(num), i);
                 Textures[i].Bind();
             }
-
+            shader.SetVector3("camPos", camera.Position);
             shader.SetMatrix4("camMatrix", camera.CameraMatrix);
             GL.DrawElements(BeginMode.Triangles, Indices.Count, DrawElementsType.UnsignedInt, 0);
         }

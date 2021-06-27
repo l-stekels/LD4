@@ -9,14 +9,19 @@ namespace LD4
     public class Texture
     {
         public int Id;
+        public string Type;
+        public int Unit;
 
         public Texture(
             string path,
+            string type,
             int slot,
             PixelFormat pixelFormat = PixelFormat.Bgra,
             PixelType pixelType = PixelType.UnsignedByte
         )
         {
+            Type = type;
+            Unit = slot;
             GL.GenTextures(1, out Id);
 
             GL.ActiveTexture(TextureUnit.Texture0 + slot);
@@ -48,13 +53,9 @@ namespace LD4
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public void TexUnit(ref Shader shader, string uniform, int unit)
-        {
-            shader.SetInt(uniform, unit);
-        }
-
         public void Bind()
         {
+            GL.ActiveTexture(TextureUnit.Texture0 + Unit);
             GL.BindTexture(TextureTarget.Texture2D, Id);
         }
 

@@ -11,14 +11,15 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="Shaders\light.frag.glsl" />
-      <Content Include="Shaders\light.vert.glsl" />
+      <Content Include="Shaders\light.frag.glsl">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Shaders\light.vert.glsl">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <None Remove="Shaders\fragment_shader.glsl" />
       <None Remove="Shaders\vertex_shader.glsl" />
       <None Remove="Resources\container.png" />
-      <Content Include="Resources\container.png">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
       <None Remove="Shaders\default.frag.glsl" />
       <Content Include="Shaders\default.frag.glsl">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -35,6 +36,14 @@
       </Content>
       <None Remove="Resources\planksSpec.png" />
       <Content Include="Resources\planksSpec.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\stone.png" />
+      <Content Include="Resources\stone.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\stoneSpec.png" />
+      <Content Include="Resources\stoneSpec.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

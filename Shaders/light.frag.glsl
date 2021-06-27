@@ -1,5 +1,10 @@
-#version 120
+#version 410 core
 
-void main() {
+out vec4 FragColor;
 
+uniform vec4 lightColor;
+
+void main()
+{
+	FragColor = lightColor;
 }

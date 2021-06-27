@@ -52,30 +52,50 @@ namespace LD4
 
         public void SetInt(string name, int data)
         {
+            if (!_uniformLocations.ContainsKey(name))
+            {
+                return;
+            }
             GL.UseProgram(Handle);
             GL.Uniform1(_uniformLocations[name], data);
         }
 
         public void SetFloat(string name, float data)
         {
+            if (!_uniformLocations.ContainsKey(name))
+            {
+                return;
+            }
             GL.UseProgram(Handle);
             GL.Uniform1(_uniformLocations[name], data);
         }
 
         public void SetMatrix4(string name, Matrix4 data)
         {
+            if (!_uniformLocations.ContainsKey(name))
+            {
+                return;
+            }
             GL.UseProgram(Handle);
             GL.UniformMatrix4(_uniformLocations[name], true, ref data);
         }
 
         public void SetVector3(string name, Vector3 data)
         {
+            if (!_uniformLocations.ContainsKey(name))
+            {
+                return;
+            }
             GL.UseProgram(Handle);
             GL.Uniform3(_uniformLocations[name], data);
         }
 
         public void SetVector4(string name, Vector4 data)
         {
+            if (!_uniformLocations.ContainsKey(name))
+            {
+                return;
+            }
             GL.UseProgram(Handle);
             GL.Uniform4(_uniformLocations[name], data);
         }
