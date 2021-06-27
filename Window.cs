@@ -86,7 +86,7 @@ namespace LD4
                 new Vector3(0.5f, 0.0f, -0.5f), 
                 new Vector3(0.25f, 0.44f, 0.33f),
                 Vector3.One,
-                new Vector2(1.0f, 0.0f)
+                new Vector2(1.5f, 0.0f)
                 ), // 2
             new(
                 new Vector3(0.5f, 0.0f, 0.5f), 
@@ -98,7 +98,7 @@ namespace LD4
                 new Vector3(0.0f, 0.8f, 0.0f), 
                 new Vector3(0.25f, 0.44f, 0.33f),
                 Vector3.One,
-                new Vector2(1.0f, 0.0f)
+                new Vector2(1.5f, 0.0f)
                 ), // 4 
             new(
                 new Vector3(-0.25f, 0.0f, 0.5f), 
@@ -110,13 +110,13 @@ namespace LD4
                 new Vector3(0f, 0.0f, 0.5f), 
                 new Vector3(0.25f, 0.44f, 0.33f),
                 Vector3.One,
-                new Vector2(0.0f, 0.0f)
+                new Vector2(1.5f, 0.0f)
                 ), // 6
             new(
                 new Vector3(0.25f, 0.0f, 0.5f), 
                 new Vector3(0.25f, 0.44f, 0.33f),
                 Vector3.One,
-                new Vector2(0.0f, 0.0f)
+                new Vector2(1.0f, 0.0f)
                 ), // 7
         };
 
@@ -277,7 +277,8 @@ namespace LD4
             _pyramid.Draw(ref _shader, ref _camera);
             _light.Draw(ref _lightShader, ref _camera);
 
-            var lineModel = Matrix4.CreateTranslation(0.0f, 0.5f, 0.0f);
+            var lineModel = Matrix4.CreateTranslation(0.0f, 1f, 0.0f);
+            lineModel *= Matrix4.CreateRotationX((float)MathHelper.DegreesToRadians(_time));
             _shader.SetMatrix4("model", lineModel);
             _lineObject.DrawWithLines(ref _shader, ref _camera);
 
