@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net5.0</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="OpenTK" Version="4.6.4" />
+      <PackageReference Include="SixLabors.ImageSharp" Version="1.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Shaders\light.frag.glsl" />
+      <Content Include="Shaders\light.vert.glsl" />
+      <None Remove="Shaders\fragment_shader.glsl" />
+      <None Remove="Shaders\vertex_shader.glsl" />
+      <None Remove="Resources\container.png" />
+      <Content Include="Resources\container.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Shaders\default.frag.glsl" />
+      <Content Include="Shaders\default.frag.glsl">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Shaders\default.vert.glsl" />
+      <Content Include="Shaders\default.vert.glsl">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Shaders\light.frag.glsl" />
+      <None Remove="Shaders\light.vert.glsl" />
+      <None Remove="Resources\planks.png" />
+      <Content Include="Resources\planks.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\planksSpec.png" />
+      <Content Include="Resources\planksSpec.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+</Project>
